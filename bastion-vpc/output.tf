@@ -1,21 +1,21 @@
 output "bastion_vpc_id" {
-  value = "${module.vpc.vpc_id}"
+  value = "${module.bastion_vpc.vpc_id}"
 }
 
 output "bastion_vpc_cidr" {
-  value = "${module.vpc.vpc_cidr}"
+  value = "${module.bastion_vpc.vpc_cidr}"
 }
 
 output "bastion_vpc_sg_id" {
-  value = "${aws_security_group.vpc-sg.id}"
+  value = "${aws_security_group.bastion-vpc-sg.id}"
 }
 
 output "bastion_vpc_sg_outbound_id" {
-  value = "${aws_security_group.vpc-sg-outbound.id}"
+  value = "${aws_security_group.bastion-vpc-sg-outbound.id}"
 }
 
 output "vpcflowlog_id" {
-  value = "${module.vpcflowlog.vpc_flow_log_id}"
+  value = "${module.bastion_vpcflowlog.vpc_flow_log_id}"
 }
 
 output "bastion-public-subnet-az1" {
@@ -44,24 +44,24 @@ output "public-routetable-az3" {
 
 # S3 Buckets
 output "s3-config-bucket" {
-  value = "${module.s3config_bucket.s3_bucket_name}"
+  value = "${module.bastion_s3config_bucket.s3_bucket_name}"
 }
 
 # KMS Key
 output "kms_arn" {
-  value = "${module.kms_key.kms_arn}"
+  value = "${module.bastion_kms_key.kms_arn}"
 }
 
 # SSH KEY
-output "ssh_public_key" {
-  value = "${module.ssh_key.public_key_openssh}"
-}
+#output "ssh_public_key" {
+#  value = "${module.ssh_key.public_key_openssh}"
+#}
 
-output "ssh_private_key_pem" {
-  sensitive = true
-  value     = "${module.ssh_key.private_key_pem}"
-}
+#output "ssh_private_key_pem" {
+#  sensitive = true
+#  value     = "${module.ssh_key.private_key_pem}"
+#}
 
-output "ssh_deployer_key" {
-  value = "${module.ssh_key.deployer_key}"
-}
+#output "ssh_deployer_key" {
+#  value = "${module.ssh_key.deployer_key}"
+#}
