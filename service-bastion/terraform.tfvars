@@ -4,7 +4,7 @@ terragrunt = {
   }
 
   dependencies {
-    paths = ["../vpc", "../routes"]
+    paths = ["../bastion-vpc"]
   }
 }
 
