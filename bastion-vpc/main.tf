@@ -46,7 +46,7 @@ resource "aws_security_group" "bastion-vpc-sg" {
     to_port   = "22"
     protocol  = "tcp"
 
-    cidr_blocks = ["${module.bastion_vpc.vpc_cidr}"]
+    cidr_blocks = ["0.0.0.0/0"]
 
     description = "${var.environment_identifier}-bastion-vpc"
   }
@@ -75,12 +75,20 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     description = "${var.environment_identifier}-bastion-vpc"
   }
 
+  egress {
+    from_port   = "80"
+    to_port     = "80"
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "${var.environment_identifier}-bastion-vpc"
+  }
+
   tags = "${merge(var.tags, map("Name", "${var.environment_identifier}-bastion-vpc-outbound"))}"
 }
 
-# ############################################
-# # PUBLIC SUBNET
-# ############################################
+############################################
+# PUBLIC SUBNET
+############################################
 
 module "bastion-public-az1" {
   source                  = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//subnets"
@@ -171,12 +179,37 @@ module "bastion_kms_key" {
   tags         = "${var.tags}"
 }
 
+#Internet gateway
+
+module "bastion_igw" {
+  source       = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules/internetgateway"
+  gateway_name = "${var.environment_identifier}"
+  vpc_id       = "${module.bastion_vpc.vpc_id}"
+  tags         = "${var.tags}"
+}
+
+#Routes
+
+module "route-to-internet" {
+  source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//routes//internetgateway"
+
+  route_table_id = [
+    "${element(module.bastion-public-az1.routetableid,0)}",
+    "${element(module.bastion-public-az2.routetableid,0)}",
+    "${element(module.bastion-public-az3.routetableid,0)}",
+  ]
+
+  destination_cidr_block = [
+    "0.0.0.0/0",
+    "0.0.0.0/0",
+    "0.0.0.0/0",
+  ]
+
+  gateway_id = "${module.bastion_igw.igw_id}"
+}
+
+
 ############################################
 # DEPLOYER KEY FOR PROVISIONING
 ############################################
 
-#module "bastion_ssh_key" {
-#  source   = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//ssh_key"
-# keyname  = "${var.environment_identifier}"
-#  rsa_bits = "4096"
-#}

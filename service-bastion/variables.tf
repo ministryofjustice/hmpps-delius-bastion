@@ -22,6 +22,4 @@ variable "availability_zone" {
   type = "map"
 }
 
-variable "ami_id" {}
-
 variable "app_name" {}

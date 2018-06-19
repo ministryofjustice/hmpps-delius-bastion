@@ -21,29 +21,46 @@ data "terraform_remote_state" "bastion_vpc" {
   }
 }
 
-resource "aws_launch_configuration" "launch_cfg" {
-  name          = "bastion"
-  image_id      = "${var.ami_id}"
+#Provisioning SSH key
+
+module "bastion_ssh_key" {
+  source   = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//ssh_key"
+  keyname  = "${var.environment_identifier}"
+  rsa_bits = "4096"
+}
+
+
+#
+# Get the latest Amazon Linux ami
+#
+data "aws_ami" "hmpps" {
+  most_recent = true
+
+  filter {
+    name = "name"
+    values = ["HMPPS Base Amazon Linux 2 LTS*"]
+  }
+
+  owners = ["895523100917"]
+}
+
+resource "aws_instance" "bastion_instance" {
+  ami = "${data.aws_ami.hmpps.id}"
   instance_type = "t2.micro"
+  key_name = "${module.bastion_ssh_key.deployer_key}"
+  subnet_id = "${element(data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az1,0)}"
+
+  vpc_security_group_ids = ["${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_id}",
+      "${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_outbound_id}"]
+
+  tags = "${var.tags}"
+
 }
 
-############################################
-# CREATE AUTO SCALING GROUP
-############################################
-
-module "auto_scale" {
-  source   = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//autoscaling//group//default"
-  asg_name = "${var.environment_identifier}-${var.app_name}"
-
-  subnet_ids = ["${element(data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az1,0)}",
-    "${element(data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az2,0)}",
-    "${element(data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az3,0)}",
-  ]
-
-  asg_min              = "1"
-  asg_max              = "1"
-  asg_desired          = "1"
-  launch_configuration = "${aws_launch_configuration.launch_cfg.name}"
-  tags                 = "${var.tags}"
+resource "aws_eip" "bastion_eip" {
+  instance = "${aws_instance.bastion_instance.id}"
+  vpc = true
+  tags = "${var.tags}"
 }
+
 
