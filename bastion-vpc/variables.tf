@@ -33,3 +33,7 @@ variable "bastion_public_cidr" {
 variable "route53_domain_private" {}
 
 variable "cloudwatch_log_retention" {}
+
+variable "bastion_peering_ids" {
+  type = "list"
+}
