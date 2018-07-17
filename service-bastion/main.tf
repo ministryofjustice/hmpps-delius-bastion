@@ -38,7 +38,11 @@ data "aws_ami" "hmpps" {
 
   filter {
     name = "name"
-    values = ["HMPPS Base Amazon Linux 2 LTS*"]
+    values = ["HMPPS Base CentOS master*"]
+  }
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 
   owners = ["895523100917"]
@@ -48,12 +52,16 @@ resource "aws_instance" "bastion_instance" {
   ami = "${data.aws_ami.hmpps.id}"
   instance_type = "t2.micro"
   key_name = "${module.bastion_ssh_key.deployer_key}"
-  subnet_id = "${element(data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az1,0)}"
+  subnet_id = "${data.terraform_remote_state.bastion_vpc.bastion-public-subnet-az1}"
 
   vpc_security_group_ids = ["${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_id}",
       "${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_outbound_id}"]
 
   tags = "${var.tags}"
+
+  lifecycle {
+    ignore_changes = [ "ami" ]
+  }
 
 }
 
