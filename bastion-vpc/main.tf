@@ -29,7 +29,7 @@ module "bastion_vpc" {
   vpc_name               = "${var.environment_identifier}"
   vpc_dns_hosts          = "AmazonProvidedDNS"
   cidr_block             = "${var.bastion_cidr_block}"
-  route53_domain_private = "${var.route53_domain_private}"
+  route53_domain_private = "${var.bastion_domain_zone}"
   tags                   = "${var.tags}"
 }
 
