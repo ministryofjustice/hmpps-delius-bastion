@@ -23,3 +23,7 @@ variable "availability_zone" {
 }
 
 variable "app_name" {}
+
+variable "bastion_domain_zone" {}
+
+variable "environment" {}

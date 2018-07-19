@@ -30,7 +30,7 @@ variable "bastion_public_cidr" {
   type = "map"
 }
 
-variable "route53_domain_private" {}
+variable "bastion_domain_zone" {}
 
 variable "cloudwatch_log_retention" {}
 

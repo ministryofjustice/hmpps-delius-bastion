@@ -29,7 +29,7 @@ module "bastion_vpc" {
   vpc_name               = "${var.environment_identifier}"
   vpc_dns_hosts          = "AmazonProvidedDNS"
   cidr_block             = "${var.bastion_cidr_block}"
-  route53_domain_private = "${var.route53_domain_private}"
+  route53_domain_private = "${var.bastion_domain_zone}"
   tags                   = "${var.tags}"
 }
 
@@ -82,6 +82,15 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "${var.environment_identifier}-bastion-vpc"
   }
+
+  egress {
+    from_port   = "22"
+    to_port     = "22"
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "${var.environment_identifier}-bastion-vpc"
+  }
+
 
   tags = "${merge(var.tags, map("Name", "${var.environment_identifier}-bastion-vpc-outbound"))}"
 }
