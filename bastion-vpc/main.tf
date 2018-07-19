@@ -194,9 +194,9 @@ module "route-to-internet" {
   source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//routes//internetgateway"
 
   route_table_id = [
-    "${element(module.bastion-public-az1.routetableid,0)}",
-    "${element(module.bastion-public-az2.routetableid,0)}",
-    "${element(module.bastion-public-az3.routetableid,0)}",
+    "${module.bastion-public-az1.routetableid}",
+    "${module.bastion-public-az2.routetableid}",
+    "${module.bastion-public-az3.routetableid}",
   ]
 
   destination_cidr_block = [
@@ -207,9 +207,4 @@ module "route-to-internet" {
 
   gateway_id = "${module.bastion_igw.igw_id}"
 }
-
-
-############################################
-# DEPLOYER KEY FOR PROVISIONING
-############################################
 

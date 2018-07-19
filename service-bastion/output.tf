@@ -9,4 +9,5 @@ output "bastion_ip" {
 
 output "bastion_private_key" {
   value = "${module.bastion_ssh_key.private_key_pem}"
+  sensitive = true
 }
