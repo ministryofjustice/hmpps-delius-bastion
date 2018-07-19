@@ -83,6 +83,15 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     description = "${var.environment_identifier}-bastion-vpc"
   }
 
+  egress {
+    from_port   = "22"
+    to_port     = "22"
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "${var.environment_identifier}-bastion-vpc"
+  }
+
+
   tags = "${merge(var.tags, map("Name", "${var.environment_identifier}-bastion-vpc-outbound"))}"
 }
 
