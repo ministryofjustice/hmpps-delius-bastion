@@ -1,1 +1,1 @@
-route53_domain_private = "probation.hmpps.dsd.io"
+bastion_domain_zone = "bastion.probation.hmpps.dsd.io."
