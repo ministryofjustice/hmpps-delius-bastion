@@ -38,7 +38,7 @@ module "bastion_vpc" {
 #######################################
 resource "aws_security_group" "bastion-vpc-sg" {
   name        = "${var.environment_identifier}-bastion-vpc-sg"
-  description = "security group for ${var.environment_identifier}-vpc"
+  description = "Inbound security group for ${var.environment_identifier}-vpc"
   vpc_id      = "${module.bastion_vpc.vpc_id}"
 
   ingress {
@@ -55,8 +55,8 @@ resource "aws_security_group" "bastion-vpc-sg" {
     from_port   = "443"
     to_port     = "443"
     protocol    = "tcp"
-    cidr_blocks = ["${module.bastion_vpc.vpc_cidr}"]
-    description = "${var.environment_identifier}-bastion-vpc"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTPS inbound into ${var.environment_identifier}-bastion-vpc"
   }
 
   tags = "${merge(var.tags, map("Name", "${var.environment_identifier}-bastion-vpc-sg"))}"
@@ -64,7 +64,7 @@ resource "aws_security_group" "bastion-vpc-sg" {
 
 resource "aws_security_group" "bastion-vpc-sg-outbound" {
   name        = "${var.environment_identifier}-bastion-vpc-sg-outbound"
-  description = "security group for ${var.environment_identifier}-vpc"
+  description = "Outbound security group for ${var.environment_identifier}-vpc"
   vpc_id      = "${module.bastion_vpc.vpc_id}"
 
   egress {
@@ -72,7 +72,7 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     to_port     = "443"
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "${var.environment_identifier}-bastion-vpc"
+    description = "Allow HTTPS outbound from ${var.environment_identifier}-bastion-vpc"
   }
 
   egress {
@@ -80,7 +80,7 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     to_port     = "80"
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "${var.environment_identifier}-bastion-vpc"
+    description = "Allow HTTP outbound from ${var.environment_identifier}-bastion-vpc"
   }
 
   egress {
@@ -88,9 +88,16 @@ resource "aws_security_group" "bastion-vpc-sg-outbound" {
     to_port     = "22"
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "${var.environment_identifier}-bastion-vpc"
+    description = "Allow SSH outbound from ${var.environment_identifier}-bastion-vpc"
   }
 
+  egress {
+    from_port   = 0
+    protocol    = "TCP"
+    to_port     = 65535
+    cidr_blocks = ["10.0.0.0/8"]
+    description = "Allow bastion to connect to internal subnets"
+  }
 
   tags = "${merge(var.tags, map("Name", "${var.environment_identifier}-bastion-vpc-outbound"))}"
 }
@@ -128,7 +135,6 @@ module "bastion-public-az3" {
   vpc_id                  = "${module.bastion_vpc.vpc_id}"
   tags                    = "${var.tags}"
 }
-
 
 ##########################
 #  VPC FLOW LOGS
@@ -216,4 +222,3 @@ module "route-to-internet" {
 
   gateway_id = "${module.bastion_igw.igw_id}"
 }
-
