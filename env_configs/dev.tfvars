@@ -25,4 +25,4 @@ bastion_public_cidr = {
 
 # In the format of peering_id,subnet
 
-bastion_peering_ids = ["pcx-06548f362f8a7b6db,10.161.128.128/25"]
+bastion_peering_ids = ["pcx-004b5453326e66fab,10.161.128.128/25"]
