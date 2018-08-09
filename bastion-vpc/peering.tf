@@ -2,7 +2,7 @@ resource "aws_vpc_peering_connection_accepter" "peer" {
   count = "${length(var.bastion_peering_ids)}"
   vpc_peering_connection_id = "${element(split(",", var.bastion_peering_ids[count.index] ), 0)}"
   auto_accept = true
-  tags = "${var.tags}"
+  tags = "${merge(var.tags, map("Name", "${var.short_environment_identifier}-from-${element(split(",", var.bastion_peering_ids[count.index] ), 2)}-vpc"))}"
 }
 
 resource "aws_route" "peer_route_az1" {
