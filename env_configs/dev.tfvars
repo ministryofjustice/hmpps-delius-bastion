@@ -26,6 +26,5 @@ bastion_public_cidr = {
 # In the format of peering_id,subnet
 
 bastion_peering_ids = [
-  "pcx-0d6c272945384bc78,10.161.128.128/25,delius-core-sandpit",
-  "pcx-0ef7a52914bb0fa8f,10.161.129.0/24,delius-core-dev",
+  "pcx-0ff5d735b31edffa7,10.161.4.0/23,delius-core-sandpit"
 ]
