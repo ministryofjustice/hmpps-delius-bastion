@@ -35,5 +35,6 @@ bastion_peering_ids = [
   "pcx-0ab3ee81af30c8dcb,10.161.128.128/25,hmpps-vcms-test",
   "pcx-0161b3c5419c6ddc1,10.161.64.0/24,hmpps-vcms-perf",
   "pcx-00efa04a17abcff11,10.161.65.0/24,hmpps-vcms-stage",
-  "pcx-09a593204604e08da,10.161.20.0/22,delius-core-dev",
+  "pcx-0a529881efe69540b,10.161.20.0/22,delius-core-dev",
+  "pcx-088f1f4fb40cea44a,10.161.73.0/24,delius-new-tech-dev",
 ]
