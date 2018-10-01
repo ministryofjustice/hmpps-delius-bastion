@@ -1,9 +1,21 @@
+output "bastion_vpc_account_id" {
+  value = "${data.aws_caller_identity.current.account_id}"
+}
+
 output "bastion_vpc_id" {
   value = "${module.bastion_vpc.vpc_id}"
 }
 
 output "bastion_vpc_cidr" {
   value = "${module.bastion_vpc.vpc_cidr}"
+}
+
+output "bastion_public_cidr" {
+  value = "${var.bastion_public_cidr}"
+}
+
+output "bastion_remote_state_bucket_name" {
+  value = "${var.remote_state_bucket_name}"
 }
 
 output "bastion_vpc_sg_id" {
