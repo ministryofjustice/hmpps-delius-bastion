@@ -6,7 +6,7 @@ data "aws_route53_zone" "zone" {
 
 resource "aws_route53_record" "bastion" {
   zone_id = "${data.aws_route53_zone.zone.zone_id}"
-  name    = "${var.environment}"
+  name    = "ssh"
   type    = "A"
   ttl     = "300"
   records = ["${aws_eip.bastion_eip.public_ip}"]
