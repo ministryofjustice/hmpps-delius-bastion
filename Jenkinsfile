@@ -9,7 +9,7 @@ def plan_submodule(submodule_name) {
         sh """
         set +e
         docker run --rm -v `pwd`:/home/tools/data -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder bash -c "\
-            source env_configs/${environment_type}.properties.sh; \
+            source env_configs/${environment_type}.properties; \
             cd $submodule_name; \
             terragrunt plan -detailed-exitcode --out ${environment_type}.plan" || exitcode="\$?" ; echo "\$exitcode" > plan_ret; if [ "\$exitcode" == '1' ]; then exit 1; else exit 0; fi
         set -e
@@ -22,7 +22,7 @@ def apply_submodule(submodule_name) {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
         sh """
         docker run --rm -v `pwd`:/home/tools/data -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder bash -c "\
-            source env_configs/${environment_type}.properties.sh; \
+            source env_configs/${environment_type}.properties; \
             cd $submodule_name; \
             terragrunt apply ${environment_type}.plan"
         """
