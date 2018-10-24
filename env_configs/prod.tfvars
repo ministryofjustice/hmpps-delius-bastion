@@ -1,17 +1,4 @@
-# This is used for ALB logs to S3 bucket.
-# This is fixed for each region. if region changes, this changes
-lb_account_id = "652711504416"
-
-# VPC variables
-cloudwatch_log_retention = 14
-
-availability_zone = {
-  az1 = "eu-west-2a"
-
-  az2 = "eu-west-2b"
-
-  az3 = "eu-west-2c"
-}
+bastion_domain_zone = "bastion-prod.probation.hmpps.dsd.io."
 
 bastion_cidr_block = "10.160.98.0/25"
 
@@ -30,4 +17,6 @@ bastion_public_cidr = {
 ## to be destroyed and recreated.
 
 bastion_peering_ids = [
+  "pcx-038d6208ed97d819f,10.160.65.0/24,vcms-preprod",
+  "pcx-082a17dcacd503d98,10.160.64.0/24,vcms-prod",
 ]
