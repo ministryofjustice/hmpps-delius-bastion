@@ -26,4 +26,5 @@ bastion_peering_ids = [
   "pcx-0cc5e82fe8f726785,10.162.0.0/20,delius-test",
   "pcx-020091becf6f4fc01,10.162.16.0/20,delius-perf",
   "pcx-0acaa20bf595e37a0,10.162.32.0/20,delius-stage",
+  "pcx-0d129c7968ddb1a26,10.161.4.0/22,delius-core-sandpit",
 ]
