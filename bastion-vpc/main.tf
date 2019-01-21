@@ -88,7 +88,7 @@ module "bastion_vpcflowlog" {
   source                   = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//flowlog"
   vpc_id                   = "${module.bastion_vpc.vpc_id}"
   role_arn                 = "${module.bastion_vpcflowlog_iam_role.iamrole_arn}"
-  cloudwatch_loggroup_name = "${module.bastion_vpcflowlog_cloudwatch_loggroup.loggroup_name}"
+  cloudwatch_loggroup_name = "${module.bastion_vpcflowlog_cloudwatch_loggroup.loggroup_arn}"
 }
 
 #########################
