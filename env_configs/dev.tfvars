@@ -29,4 +29,6 @@ bastion_peering_ids = [
   "pcx-0d129c7968ddb1a26,10.161.4.0/22,delius-core-sandpit",
   "pcx-0e74f31beaf9d280c,10.161.75.0/24,alfresco-dev",
   "pcx-0ecec4aab0056807e,10.161.79.0/24,mis-nart-test",
+  "pcx-01cc1e72b61b14f9c,10.160.65.0/24,hmpps-vcms-preprod",
+  "pcx-0f5bfa56e0eea5c2e,10.160.64.0/24,hmpps-vcms-prod",
 ]
