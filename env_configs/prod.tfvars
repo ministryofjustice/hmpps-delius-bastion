@@ -17,6 +17,6 @@ bastion_public_cidr = {
 ## to be destroyed and recreated.
 
 bastion_peering_ids = [
-  "pcx-038d6208ed97d819f,10.160.65.0/24,vcms-preprod",
-  "pcx-082a17dcacd503d98,10.160.64.0/24,vcms-prod",
+  "pcx-00201b8d5b70f847b,10.160.65.0/24,vcms-preprod",
+  "pcx-062639fa322e975bf,10.160.64.0/24,vcms-prod",
 ]
