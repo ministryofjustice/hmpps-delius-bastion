@@ -19,4 +19,5 @@ bastion_public_cidr = {
 bastion_peering_ids = [
   "pcx-00201b8d5b70f847b,10.160.65.0/24,vcms-preprod",
   "pcx-062639fa322e975bf,10.160.64.0/24,vcms-prod",
+  "pcx-0a3ec95ee58916ddc,10.160.96.0/24,eng-prod",
 ]
