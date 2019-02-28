@@ -62,16 +62,6 @@ resource "aws_security_group_rule" "ssh_out" {
   type              = "egress"
 }
 
-# RDP
-resource "aws_security_group_rule" "rdp_out" {
-  from_port         = 3389
-  protocol          = "tcp"
-  security_group_id = "${aws_security_group.bastion-vpc-sg-outbound.id}"
-  to_port           = 3389
-  cidr_blocks       = ["0.0.0.0/0"]
-  type              = "egress"
-}
-
 resource "aws_security_group_rule" "internal_out" {
   from_port         = 0
   protocol          = "tcp"
