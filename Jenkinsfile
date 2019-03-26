@@ -31,7 +31,7 @@ def apply_submodule(submodule_name) {
 
 def confirm() {
     try {
-        timeout(time: 60, unit: 'SECONDS') {
+        timeout(time: 15, unit: 'MINUTES') {
             env.Continue = input(
                 id: 'Proceed1', message: 'Apply plan?', parameters: [
                     [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Apply Terraform']
