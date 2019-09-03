@@ -30,7 +30,6 @@ def plan_submodule(env_name, git_project_dir, submodule_name) {
             -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder \
             bash -c "\
                 source env_configs/${env_name}.properties; \
-                if [ '${env_name}' == 'dev' ]; then unset TERRAGRUNT_IAM_ROLE; fi; \
                 cd ${submodule_name}; \
                 if [ -d .terraform ]; then rm -rf .terraform; fi; sleep 5; \
                 terragrunt init; \
@@ -63,7 +62,6 @@ def apply_submodule(env_name, git_project_dir, submodule_name) {
           -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder \
           bash -c " \
               source env_configs/${env_name}.properties; \
-              if [ '${env_name}' == 'dev' ]; then unset TERRAGRUNT_IAM_ROLE; fi; \
               cd ${submodule_name}; \
               terragrunt apply ${env_name}.plan; \
               tgexitcode=\\\$?; \
@@ -140,7 +138,7 @@ pipeline {
 
               slackSend(message: "\"Apply\" started on ${environment_name} Bastion/Access - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace(':8080','')}|Open>)")
 
-              dir( project.eng_platform ) {
+              dir( project.bastion_access ) {
                 git url: 'git@github.com:ministryofjustice/' + project.bastion_access, branch: 'issue54_DAM-333_Exetend_VPC', credentialsId: 'f44bc5f1-30bd-4ab9-ad61-cc32caf1562a'
               }
 
