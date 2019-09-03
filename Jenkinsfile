@@ -1,30 +1,82 @@
-def get_terraform_container() {
+def project = [:]
+project.eng_platform  = 'hmpps-engineering-platform-terraform'
+
+// Parameters required for job
+// parameters:
+//     choice:
+//       name: 'environment_name' [ dev | prod ]
+//       description: 'The Engineering Platform environment to configure'
+//     booleanParam:
+//       name: 'confirmation'
+//       description: 'Whether to require manual confirmation of terraform plans.'
+
+
+def prepare_env() {
     sh '''
-        docker pull mojdigitalstudio/hmpps-terraform-builder:latest
+    #!/usr/env/bin bash
+    docker pull mojdigitalstudio/hmpps-terraform-builder:latest
     '''
 }
 
-def plan_submodule(submodule_name) {
+def plan_submodule(env_name, git_project_dir, submodule_name) {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
         sh """
+        #!/usr/env/bin bash
+        echo "TF PLAN for ${env_name} | ${submodule_name} - component from git project ${git_project_dir}"
         set +e
-        docker run --rm -v `pwd`:/home/tools/data -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder bash -c "\
-            source env_configs/${environment_type}.properties; \
-            cd $submodule_name; \
-            terragrunt plan -detailed-exitcode --out ${environment_type}.plan" || exitcode="\$?" ; echo "\$exitcode" > plan_ret; if [ "\$exitcode" == '1' ]; then exit 1; else exit 0; fi
+        cd "${git_project_dir}"
+        docker run --rm \
+            -v `pwd`:/home/tools/data \
+            -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder \
+            bash -c "\
+                source env_configs/${env_name}.properties; \
+                if [ '${env_name}' == 'dev' ]; then unset TERRAGRUNT_IAM_ROLE; fi; \
+                cd ${submodule_name}; \
+                if [ -d .terraform ]; then rm -rf .terraform; fi; sleep 5; \
+                terragrunt init; \
+                terragrunt plan -detailed-exitcode --out ${env_name}.plan > tf.plan.out; \
+                exitcode=\\\"\\\$?\\\"; \
+                cat tf.plan.out; \
+                if [ \\\"\\\$exitcode\\\" == '1' ]; then exit 1; fi; \
+                if [ \\\"\\\$exitcode\\\" == '2' ]; then \
+                    parse-terraform-plan -i tf.plan.out | jq '.changedResources[] | (.action != \\\"update\\\") or (.changedAttributes | to_entries | map(.key != \\\"tags.source-hash\\\") | reduce .[] as \\\$item (false; . or \\\$item))' | jq -e -s 'reduce .[] as \\\$item (false; . or \\\$item) == false'; \
+                    if [ \\\"\\\$?\\\" == '1' ]; then exitcode=2 ; else exitcode=3; fi; \
+                fi; \
+                echo \\\"\\\$exitcode\\\" > plan_ret;" \
+            || exitcode="\$?"; \
+            if [ "\$exitcode" == '1' ]; then exit 1; else exit 0; fi
         set -e
         """
-        return readFile('plan_ret').trim()
+        return readFile("${git_project_dir}/${submodule_name}/plan_ret").trim()
     }
 }
 
-def apply_submodule(submodule_name) {
+def apply_submodule(env_name, git_project_dir, submodule_name) {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'XTerm']) {
         sh """
-        docker run --rm -v `pwd`:/home/tools/data -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder bash -c "\
-            source env_configs/${environment_type}.properties; \
-            cd $submodule_name; \
-            terragrunt apply ${environment_type}.plan"
+        #!/usr/env/bin bash
+        echo "TF APPLY for ${env_name} | ${submodule_name} - component from git project ${git_project_dir}"
+        set +e
+        cd "${git_project_dir}"
+        docker run --rm \
+          -v `pwd`:/home/tools/data \
+          -v ~/.aws:/home/tools/.aws mojdigitalstudio/hmpps-terraform-builder \
+          bash -c " \
+              source env_configs/${env_name}.properties; \
+              if [ '${env_name}' == 'dev' ]; then unset TERRAGRUNT_IAM_ROLE; fi; \
+              cd ${submodule_name}; \
+              terragrunt apply ${env_name}.plan; \
+              tgexitcode=\\\$?; \
+              echo \\\"TG exited with code \\\$tgexitcode\\\"; \
+              if [ \\\$tgexitcode -ne 0 ]; then \
+                exit  \\\$tgexitcode; \
+              else \
+                exit 0; \
+              fi;"; \
+        dockerexitcode=\$?; \
+        echo "Docker step exited with code \$dockerexitcode"; \
+        if [ \$dockerexitcode -ne 0 ]; then exit \$dockerexitcode; else exit 0; fi;
+        set -e
         """
     }
 }
@@ -32,6 +84,7 @@ def apply_submodule(submodule_name) {
 def confirm() {
     try {
         timeout(time: 15, unit: 'MINUTES') {
+
             env.Continue = input(
                 id: 'Proceed1', message: 'Apply plan?', parameters: [
                     [$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Apply Terraform']
@@ -50,12 +103,21 @@ def confirm() {
     }
 }
 
-def do_terraform(component) {
-    if (plan_submodule(component) == "2") {
-        confirm()
-        if (env.Continue == "true") {
-            apply_submodule(component)
+def do_terraform(env_name, git_project, component) {
+    plancode = plan_submodule(env_name, git_project, component)
+    if (plancode == "2") {
+        if ("${confirmation}" == "true") {
+           confirm()
+        } else {
+            env.Continue = true
         }
+        if (env.Continue == "true") {
+           apply_submodule(env_name, git_project, component)
+        }
+    }
+    else if (plancode == "3") {
+        apply_submodule(env_name, git_project, component)
+        env.Continue = true
     }
     else {
         env.Continue = true
@@ -66,20 +128,21 @@ pipeline {
 
     agent { label "jenkins_slave" }
 
-    parameters{
-        choice(
-            choices:['dev', 'prod'],
-            description: 'Select the environment bastion you would like to manage',
-            name: 'environment_type'
-        )
+    options {
+      disableConcurrentBuilds()
     }
 
     stages {
 
         stage('setup') {
             steps {
-                checkout scm
-                get_terraform_container()
+              println("Bastion/Access environment name: ${environment_name}")
+
+              slackSend(message: "\"Apply\" started on ${environment_name} Bastion/Access - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace(':8080','')}|Open>)")
+
+              checkout scm
+
+              prepare_env()
             }
         }
 
@@ -89,11 +152,29 @@ pipeline {
             }
         }
 
+        stage('Routes') {
+            steps {
+                do_terraform('routes')
+            }
+        }
+
         stage('Service') {
             steps {
                 do_terraform('service-bastion')
             }
         }
-
     }
+
+    post {
+      always {
+        deleteDir()
+      }
+      success {
+        slackSend(message: "\"Apply\" completed on ${environment_name} Bastion/Access - ${env.JOB_NAME} ${env.BUILD_NUMBER} ", color: 'good')
+      }
+      failure {
+        slackSend(message: "\"Apply\" failed on ${environment_name} Bastion/Access - ${env.JOB_NAME} ${env.BUILD_NUMBER} ", color: 'danger')
+      }
+    }
+
 }
