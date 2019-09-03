@@ -1,5 +1,5 @@
 def project = [:]
-project.eng_platform  = 'hmpps-engineering-platform-terraform'
+project.bastion_access  = 'hmpps-delius-bastion'
 
 // Parameters required for job
 // parameters:
@@ -140,7 +140,9 @@ pipeline {
 
               slackSend(message: "\"Apply\" started on ${environment_name} Bastion/Access - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL.replace(':8080','')}|Open>)")
 
-              checkout scm
+              dir( project.eng_platform ) {
+                git url: 'git@github.com:ministryofjustice/' + project.bastion_access, branch: 'issue54_DAM-333_Exetend_VPC', credentialsId: 'f44bc5f1-30bd-4ab9-ad61-cc32caf1562a'
+              }
 
               prepare_env()
             }
@@ -148,19 +150,19 @@ pipeline {
 
         stage('Network') {
             steps {
-                do_terraform('bastion-vpc')
+                do_terraform(environment_name, project.bastion_access, 'bastion-vpc')
             }
         }
 
         stage('Routes') {
             steps {
-                do_terraform('routes')
+                do_terraform(environment_name, project.bastion_access, 'routes')
             }
         }
 
         stage('Service') {
             steps {
-                do_terraform('service-bastion')
+                do_terraform(environment_name, project.bastion_access, 'service-bastion')
             }
         }
     }
