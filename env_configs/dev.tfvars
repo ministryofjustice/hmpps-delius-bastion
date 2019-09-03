@@ -10,6 +10,14 @@ bastion_public_cidr = {
   az3 = "10.161.98.32/28"
 }
 
+bastion_private_cidr = {
+  az1 = "10.161.98.64/27"
+
+  az2 = "10.161.98.96/27"
+
+  az3 = "10.161.98.48/28"
+}
+
 # In the format of peering_id,subnet
 
 ## NOTE: Add new items to end of list.

@@ -30,6 +30,10 @@ variable "bastion_public_cidr" {
   type = "map"
 }
 
+variable "bastion_private_cidr" {
+  type = "map"
+}
+
 variable "bastion_domain_zone" {}
 
 variable "cloudwatch_log_retention" {}

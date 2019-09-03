@@ -68,6 +68,40 @@ module "bastion-public-az3" {
   tags                    = "${var.tags}"
 }
 
+############################################
+# PRIVATE SUBNET
+############################################
+
+module "bastion-private-az1" {
+  source                  = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//subnets"
+  subnet_cidr_block       = "${var.bastion_private_cidr["az1"]}"
+  availability_zone       = "${var.availability_zone["az1"]}"
+  map_public_ip_on_launch = "false"
+  subnet_name             = "${var.environment_identifier}-publicaz1"
+  vpc_id                  = "${module.bastion_vpc.vpc_id}"
+  tags                    = "${var.tags}"
+}
+
+module "bastion-private-az2" {
+  source                  = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//subnets"
+  subnet_cidr_block       = "${var.bastion_private_cidr["az2"]}"
+  availability_zone       = "${var.availability_zone["az2"]}"
+  map_public_ip_on_launch = "false"
+  subnet_name             = "${var.environment_identifier}-publicaz2"
+  vpc_id                  = "${module.bastion_vpc.vpc_id}"
+  tags                    = "${var.tags}"
+}
+
+module "bastion-private-az3" {
+  source                  = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//subnets"
+  subnet_cidr_block       = "${var.bastion_private_cidr["az3"]}"
+  availability_zone       = "${var.availability_zone["az3"]}"
+  map_public_ip_on_launch = "false"
+  subnet_name             = "${var.environment_identifier}-publicaz3"
+  vpc_id                  = "${module.bastion_vpc.vpc_id}"
+  tags                    = "${var.tags}"
+}
+
 ##########################
 #  VPC FLOW LOGS
 ##########################
@@ -153,4 +187,26 @@ module "route-to-internet" {
   ]
 
   gateway_id = "${module.bastion_igw.igw_id}"
+}
+
+## NATGATEWAY
+module "common-nat-az1" {
+  source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//natgateway"
+  az     = "${var.environment_identifier}-az1"
+  subnet = "${module.bastion-private-az1.subnetid}"
+  tags   = "${var.tags}"
+}
+
+module "common-nat-az2" {
+  source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules/natgateway"
+  az     = "${var.environment_identifier}-az2"
+  subnet = "${module.bastion-private-az2.subnetid}"
+  tags   = "${var.tags}"
+}
+
+module "common-nat-az3" {
+  source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules/natgateway"
+  az     = "${var.environment_identifier}-az3"
+  subnet = "${module.bastion-private-az3.subnetid}"
+  tags   = "${var.tags}"
 }
