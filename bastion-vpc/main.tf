@@ -77,7 +77,7 @@ module "bastion-private-az1" {
   subnet_cidr_block       = "${var.bastion_private_cidr["az1"]}"
   availability_zone       = "${var.availability_zone["az1"]}"
   map_public_ip_on_launch = "false"
-  subnet_name             = "${var.environment_identifier}-publicaz1"
+  subnet_name             = "${var.environment_identifier}-private-az1"
   vpc_id                  = "${module.bastion_vpc.vpc_id}"
   tags                    = "${var.tags}"
 }
@@ -87,7 +87,7 @@ module "bastion-private-az2" {
   subnet_cidr_block       = "${var.bastion_private_cidr["az2"]}"
   availability_zone       = "${var.availability_zone["az2"]}"
   map_public_ip_on_launch = "false"
-  subnet_name             = "${var.environment_identifier}-publicaz2"
+  subnet_name             = "${var.environment_identifier}-private-az2"
   vpc_id                  = "${module.bastion_vpc.vpc_id}"
   tags                    = "${var.tags}"
 }
@@ -97,7 +97,7 @@ module "bastion-private-az3" {
   subnet_cidr_block       = "${var.bastion_private_cidr["az3"]}"
   availability_zone       = "${var.availability_zone["az3"]}"
   map_public_ip_on_launch = "false"
-  subnet_name             = "${var.environment_identifier}-publicaz3"
+  subnet_name             = "${var.environment_identifier}-private-az3"
   vpc_id                  = "${module.bastion_vpc.vpc_id}"
   tags                    = "${var.tags}"
 }
