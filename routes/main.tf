@@ -27,9 +27,9 @@ module "route-private-to-nat" {
   source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//routes//natgateway"
 
   route_table_id = [
-    "${data.vpc.private-routetable-az1}",
-    "${data.vpc.private-routetable-az2}",
-    "${data.vpc.private-routetable-az3}"
+    "${data.terraform_remote_state.vpc.private-routetable-az1}",
+    "${data.terraform_remote_state.vpc.private-routetable-az2}",
+    "${data.terraform_remote_state.vpc.private-routetable-az3}"
   ]
 
   destination_cidr_block = [
@@ -39,8 +39,8 @@ module "route-private-to-nat" {
   ]
 
   nat_gateway_id = [
-    "${data.vpc.common-nat-id-az1}",
-    "${data.vpc.common-nat-id-az2}",
-    "${data.vpc.common-nat-id-az3}"
+    "${data.terraform_remote_state.vpc.common-nat-id-az1}",
+    "${data.terraform_remote_state.vpc.common-nat-id-az2}",
+    "${data.terraform_remote_state.vpc.common-nat-id-az3}"
   ]
 }
