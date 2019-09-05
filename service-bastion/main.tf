@@ -57,7 +57,7 @@ resource "aws_instance" "bastion_instance" {
   vpc_security_group_ids = ["${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_id}",
       "${data.terraform_remote_state.bastion_vpc.bastion_vpc_sg_outbound_id}"]
 
-  tags = "${var.tags}"
+  tags = "${merge(var.tags, map("Name", "${var.environment_name}"))}"
 
   lifecycle {
     ignore_changes = [ "ami" ]
@@ -68,7 +68,5 @@ resource "aws_instance" "bastion_instance" {
 resource "aws_eip" "bastion_eip" {
   instance = "${aws_instance.bastion_instance.id}"
   vpc = true
-  tags = "${var.tags}"
+  tags = "${merge(var.tags, map("Name", "${var.environment_name}"))}"
 }
-
-
