@@ -14,6 +14,8 @@ variable "short_environment_identifier" {
   description = "short resource label or name"
 }
 
+variable "environment_name" {}
+
 variable "tags" {
   type = "map"
 }
@@ -27,6 +29,10 @@ variable "bastion_cidr_block" {
 }
 
 variable "bastion_public_cidr" {
+  type = "map"
+}
+
+variable "bastion_private_cidr" {
   type = "map"
 }
 

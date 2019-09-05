@@ -10,6 +10,14 @@ bastion_public_cidr = {
   az3 = "10.161.98.32/28"
 }
 
+bastion_private_cidr = {
+  az1 = "10.161.98.64/27"
+
+  az2 = "10.161.98.96/27"
+
+  az3 = "10.161.98.48/28"
+}
+
 # In the format of peering_id,subnet
 
 ## NOTE: Add new items to end of list.
@@ -30,7 +38,7 @@ bastion_peering_ids = [
   "pcx-0e74f31beaf9d280c,10.161.75.0/24,alfresco-dev",
   "pcx-0ecec4aab0056807e,10.161.79.0/24,mis-nart-test",
   "pcx-0a8f180e3124621e9,10.161.80.0/24,alfresco-sbx",
-  "pcx-08e9c692686409f51,10.161.96.0/24,eng-dev",
+  "pcx-08e9c692686409f51,10.161.96.0/24,engineering-dev",
   "pcx-0cc74edb3f9503931,10.162.48.0/20,delius-po-test1",
   "pcx-05baa6df601a10ff1,10.162.64.0/20,delius-po-test2",
   "pcx-0ffe096b1766c58f8,10.162.96.0/20,delius-training",
