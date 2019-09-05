@@ -1,3 +1,14 @@
+output "vpc" {
+  value = {
+      account_id   = "${data.aws_caller_identity.current.account_id}",
+      id           = "${module.bastion_vpc.vpc_id}",
+      cidr         = "${module.bastion_vpc.vpc_cidr}",
+      public_cidr  = "${var.bastion_public_cidr}",
+      private_cidr = "${var.bastion_private_cidr}",
+      peer_accepter_prefix  = "${local.peer_accepter_prefix}"
+    }
+}
+
 output "bastion_vpc_account_id" {
   value = "${data.aws_caller_identity.current.account_id}"
 }
