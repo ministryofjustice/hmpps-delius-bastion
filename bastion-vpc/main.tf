@@ -200,13 +200,13 @@ module "common-nat-az1" {
 module "common-nat-az2" {
   source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules/natgateway"
   az     = "${var.environment_identifier}-az2"
-  subnet = "${module.bastion-public-az1.subnetid}"
+  subnet = "${module.bastion-public-az2.subnetid}"
   tags   = "${var.tags}"
 }
 
 module "common-nat-az3" {
   source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules/natgateway"
   az     = "${var.environment_identifier}-az3"
-  subnet = "${module.bastion-public-az1.subnetid}"
+  subnet = "${module.bastion-public-az3.subnetid}"
   tags   = "${var.tags}"
 }
