@@ -11,7 +11,8 @@ resource "aws_vpc_peering_connection_accepter" "peer" {
       map("Name", "${local.peer_accepter_prefix}-from-${element(split(",", var.bastion_peering_ids[count.index] ), 2)}-vpc"),
       map("project", "${element(split(",", var.bastion_peering_ids[count.index] ), 2)}"),
       map("bastion_inventory", "not applicable"),
-      map("environment-name", "${local.peer_accepter_prefix}-from-${element(split(",", var.bastion_peering_ids[count.index] ), 2)}-vpc")
+      map("environment-name", "${local.peer_accepter_prefix}-from-${element(split(",", var.bastion_peering_ids[count.index] ), 2)}-vpc"),
+      map("source-code", "accepter=hmpps-delius-bastion")
     )}"
 
 }
