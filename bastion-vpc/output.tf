@@ -9,6 +9,36 @@ output "vpc" {
     }
 }
 
+output "subnets" {
+  value = {
+      bastion-public-az1  = "${module.bastion-public-az1.subnetid}",
+      bastion-public-az2  = "${module.bastion-public-az2.subnetid}",
+      bastion-public-az3  = "${module.bastion-public-az3.subnetid}",
+      bastion-private-az1 = "${module.bastion-private-az1.subnetid}",
+      bastion-private-az2 = "${module.bastion-private-az2.subnetid}",
+      bastion-private-az3 = "${module.bastion-private-az3.subnetid}"
+    }
+}
+
+output "natgateway" {
+  value = {
+      az1  = "${module.common-nat-az1.natid}",
+      az2  = "${module.common-nat-az1.natid}",
+      az3  = "${module.common-nat-az1.natid}"
+    }
+}
+
+output "routetable" {
+  value = {
+    bastion-public-az1 = "${module.bastion-public-az1.routetableid}",
+    bastion-public-az2 = "${module.bastion-public-az2.routetableid}",
+    bastion-public-az3 = "${module.bastion-public-az3.routetableid}",
+    bastion-private-az1 = "${module.bastion-private-az1.routetableid}",
+    bastion-private-az2 = "${module.bastion-private-az2.routetableid}",
+    bastion-private-az3 = "${module.bastion-private-az3.routetableid}"  
+  }
+}
+
 output "bastion_vpc_account_id" {
   value = "${data.aws_caller_identity.current.account_id}"
 }
@@ -87,18 +117,6 @@ output "private-routetable-az2" {
 
 output "private-routetable-az3" {
   value = "${module.bastion-private-az3.routetableid}"
-}
-# ##
-output "common-nat-id-az1" {
-  value = "${module.common-nat-az1.natid}"
-}
-
-output "common-nat-id-az2" {
-  value = "${module.common-nat-az2.natid}"
-}
-
-output "common-nat-id-az3" {
-  value = "${module.common-nat-az3.natid}"
 }
 
 # S3 Buckets

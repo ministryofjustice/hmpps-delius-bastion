@@ -39,8 +39,8 @@ module "route-private-to-nat" {
   ]
 
   nat_gateway_id = [
-    "${data.terraform_remote_state.vpc.common-nat-id-az1}",
-    "${data.terraform_remote_state.vpc.common-nat-id-az2}",
-    "${data.terraform_remote_state.vpc.common-nat-id-az3}"
+    "${data.terraform_remote_state.vpc.natgateway.az1}",
+    "${data.terraform_remote_state.vpc.natgateway.az2}",
+    "${data.terraform_remote_state.vpc.natgateway.az3}"
   ]
 }
