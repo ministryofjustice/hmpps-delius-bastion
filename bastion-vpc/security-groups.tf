@@ -29,7 +29,7 @@ resource "aws_security_group_rule" "https_in" {
 
 resource "aws_security_group_rule" "internal_in_ping" {
   security_group_id = "${aws_security_group.bastion-vpc-sg.id}"
-  type              = "egress"
+  type              = "ingress"
   protocol          = "icmp"
   from_port         = "8"
   to_port           = "0"
