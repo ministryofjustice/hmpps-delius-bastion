@@ -23,24 +23,20 @@ data "terraform_remote_state" "vpc" {
 
 # ## ROUTES to NATGATEWAY
 
-module "route-private-to-nat" {
-  source = "git::https://github.com/ministryofjustice/hmpps-terraform-modules.git?ref=master//modules//routes//natgateway"
+resource "aws_route" "route-privatesubnet-az1-to-natgateway-az1" {
+  route_table_id         = "${data.terraform_remote_state.vpc.private-routetable-az1}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${data.terraform_remote_state.vpc.natgateway.az1}"
+}
 
-  route_table_id = [
-    "${data.terraform_remote_state.vpc.private-routetable-az1}",
-    "${data.terraform_remote_state.vpc.private-routetable-az2}",
-    "${data.terraform_remote_state.vpc.private-routetable-az3}"
-  ]
+resource "aws_route" "route-privatesubnet-az2-to-natgateway-az2" {
+  route_table_id         = "${data.terraform_remote_state.vpc.private-routetable-az2}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${data.terraform_remote_state.vpc.natgateway.az2}"
+}
 
-  destination_cidr_block = [
-    "0.0.0.0/0",
-    "0.0.0.0/0",
-    "0.0.0.0/0",
-  ]
-
-  nat_gateway_id = [
-    "${data.terraform_remote_state.vpc.natgateway.az1}",
-    "${data.terraform_remote_state.vpc.natgateway.az2}",
-    "${data.terraform_remote_state.vpc.natgateway.az3}"
-  ]
+resource "aws_route" "route-privatesubnet-az3-to-natgateway-az3" {
+  route_table_id         = "${data.terraform_remote_state.vpc.private-routetable-az3}"
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = "${data.terraform_remote_state.vpc.natgateway.az3}"
 }

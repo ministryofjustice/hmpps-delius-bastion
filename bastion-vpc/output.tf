@@ -23,8 +23,8 @@ output "subnets" {
 output "natgateway" {
   value = {
       az1  = "${module.common-nat-az1.natid}",
-      az2  = "${module.common-nat-az1.natid}",
-      az3  = "${module.common-nat-az1.natid}"
+      az2  = "${module.common-nat-az2.natid}",
+      az3  = "${module.common-nat-az3.natid}"
     }
 }
 
@@ -35,7 +35,7 @@ output "routetable" {
     bastion-public-az3 = "${module.bastion-public-az3.routetableid}",
     bastion-private-az1 = "${module.bastion-private-az1.routetableid}",
     bastion-private-az2 = "${module.bastion-private-az2.routetableid}",
-    bastion-private-az3 = "${module.bastion-private-az3.routetableid}"  
+    bastion-private-az3 = "${module.bastion-private-az3.routetableid}"
   }
 }
 

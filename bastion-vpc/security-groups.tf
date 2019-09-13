@@ -27,6 +27,16 @@ resource "aws_security_group_rule" "https_in" {
   type              = "ingress"
 }
 
+resource "aws_security_group_rule" "internal_in_ping" {
+  security_group_id = "${aws_security_group.bastion-vpc-sg.id}"
+  type              = "ingress"
+  protocol          = "icmp"
+  from_port         = "8"
+  to_port           = "0"
+  cidr_blocks       = ["10.0.0.0/8"]
+  description       = "Internal Ping in all"
+}
+
 resource "aws_security_group" "bastion-vpc-sg-outbound" {
   name        = "${var.environment_identifier}-bastion-vpc-sg-outbound"
   description = "Outbound security group for ${var.environment_identifier}-vpc"
@@ -79,4 +89,14 @@ resource "aws_security_group_rule" "internal_out" {
   to_port           = 65535
   cidr_blocks       = ["10.0.0.0/8"]
   type              = "egress"
+}
+
+resource "aws_security_group_rule" "internal_out_ping" {
+  security_group_id = "${aws_security_group.bastion-vpc-sg-outbound.id}"
+  type              = "egress"
+  protocol          = "icmp"
+  from_port         = "8"
+  to_port           = "0"
+  cidr_blocks       = ["10.0.0.0/8"]
+  description       = "Internal Ping out all"
 }
