@@ -27,7 +27,6 @@ bastion_private_cidr = {
 bastion_peering_ids = [
   "pcx-00201b8d5b70f847b,10.160.65.0/24,vcms-preprod",
   "pcx-062639fa322e975bf,10.160.64.0/24,vcms-prod",
-  "pcx-0a3ec95ee58916ddc,10.160.96.0/24,engineering-prod",
   "pcx-09157c7b0c3198eb5,10.160.0.0/20,delius-pre-prod",
   "pcx-03373232955f8d862,10.160.16.0/20,delius-prod",
   "pcx-0913df32be8acaa55,10.161.96.0/24,engineering-dev",
