@@ -35,7 +35,6 @@ bastion_peering_ids = [
   "pcx-020091becf6f4fc01,10.162.16.0/20,delius-perf",
   "pcx-0d129c7968ddb1a26,10.161.4.0/22,delius-core-sandpit",
   "pcx-0e74f31beaf9d280c,10.161.75.0/24,alfresco-dev",
-  "pcx-0ecec4aab0056807e,10.161.79.0/24,mis-nart-test",
   "pcx-0a8f180e3124621e9,10.161.80.0/24,alfresco-sbx",
   "pcx-08e9c692686409f51,10.161.96.0/24,engineering-dev",
   "pcx-0cc74edb3f9503931,10.162.48.0/20,delius-po-test1",
@@ -43,7 +42,7 @@ bastion_peering_ids = [
   "pcx-0ffe096b1766c58f8,10.162.96.0/20,delius-training",
   "pcx-0f8f7ed63f3bf9aaf,10.162.80.0/20,delius-training-test",
   "pcx-027c6dc6b5283023e,10.161.74.0/24,delius-new-tech-sbx",
-  "pcx-073714a27f3f7d0a4,10.161.99.0/24,mis-nart-dev",
   "pcx-09b584e627db5e332,10.162.112.0/20,delius-mis-test",
   "pcx-0608dbd02034506ce,10.162.128.0/20,delius-auto-test",
+  "pcx-0a25f976d7b9b4c4a,10.162.32.0/20,delius-mis-dev"
 ]
