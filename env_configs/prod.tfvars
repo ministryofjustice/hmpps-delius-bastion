@@ -33,3 +33,10 @@ bastion_peering_ids = [
   "pcx-0a5d2629588eaeea7,10.160.32.0/20,delius-stage",
   "pcx-074d66c2c52980e1b,10.160.48.0/20,delius-perf",
 ]
+
+# vpn 
+vpn_cidr_block = "172.29.168.0/28"
+vpn_access_list = [
+  "146.200.102.241/32", # Fahiz Zaizzi
+  "109.147.187.38/32"   # Don AWS
+]
