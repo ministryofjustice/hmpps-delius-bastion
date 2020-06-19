@@ -41,5 +41,6 @@ bastion_peering_ids = [
   "pcx-0ffe096b1766c58f8,10.162.96.0/20,delius-training",
   "pcx-0f8f7ed63f3bf9aaf,10.162.80.0/20,delius-training-test",
   "pcx-027c6dc6b5283023e,10.161.74.0/24,delius-new-tech-sbx",
-  "pcx-0a25f976d7b9b4c4a,10.162.32.0/20,delius-mis-dev"
+  "pcx-0a25f976d7b9b4c4a,10.162.32.0/20,delius-mis-dev",
+  "pcx-07220cdfdd572affd,10.162.128.0/20,delius-auto-test"
 ]
