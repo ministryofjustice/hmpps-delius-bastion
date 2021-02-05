@@ -33,7 +33,7 @@ bastion_peering_ids = [
   "pcx-088f1f4fb40cea44a,10.161.73.0/24,delius-new-tech-dev",
   "pcx-0cc5e82fe8f726785,10.162.0.0/20,delius-test",
   "pcx-0d129c7968ddb1a26,10.161.4.0/22,delius-core-sandpit",
-  "pcx-0ad6e6ae811a8745c,10.161.72.0/22,alfresco-dev",
+  "pcx-097229defd468ba0e,10.161.80.0/22,alfresco-dev",
   "pcx-08e9c692686409f51,10.161.96.0/24,engineering-dev",
   "pcx-0cc74edb3f9503931,10.162.48.0/20,delius-po-test1",
   "pcx-0710883f4d6c6f236,10.162.64.0/20,delius-int",
