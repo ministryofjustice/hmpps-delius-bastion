@@ -14,14 +14,15 @@ variable "short_environment_identifier" {
   description = "short resource label or name"
 }
 
-variable "environment_name" {}
+variable "environment_name" {
+}
 
 variable "tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "availability_zone" {
-  type = "map"
+  type = map(string)
 }
 
 variable "bastion_cidr_block" {
@@ -29,17 +30,20 @@ variable "bastion_cidr_block" {
 }
 
 variable "bastion_public_cidr" {
-  type = "map"
+  type = map(string)
 }
 
 variable "bastion_private_cidr" {
-  type = "map"
+  type = map(string)
 }
 
-variable "bastion_domain_zone" {}
+variable "bastion_domain_zone" {
+}
 
-variable "cloudwatch_log_retention" {}
+variable "cloudwatch_log_retention" {
+}
 
 variable "bastion_peering_ids" {
-  type = "list"
+  type = list(string)
 }
+
