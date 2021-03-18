@@ -14,18 +14,23 @@ variable "short_environment_identifier" {
   description = "short resource label or name"
 }
 
-variable "environment_name" {}
+variable "environment_name" {
+}
 
 variable "tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "availability_zone" {
-  type = "map"
+  type = map(string)
 }
 
-variable "app_name" {}
+variable "app_name" {
+}
 
-variable "bastion_domain_zone" {}
+variable "bastion_domain_zone" {
+}
 
-variable "environment" {}
+variable "environment" {
+}
+
