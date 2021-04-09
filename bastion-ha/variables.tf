@@ -99,7 +99,7 @@ variable "efs_conf" {
     backup_coldstorage_after_days   = 30
     # delet must be >= 90days from cold storage move
     backup_delete_after_days = 120
-    efs_mount_dir = "/test2"
+    efs_mount_dir = "/efs-user"
     efs_mount_user = "root"
   }
 }
