@@ -11,3 +11,10 @@ resource "aws_route53_record" "bastion" {
   records = [aws_eip.bastion_eip.public_ip]
 }
 
+output "zone_id" {
+  value = data.aws_route53_zone.zone.zone_id
+}
+
+output "zone_name" {
+  value = data.aws_route53_zone.zone.name
+}
