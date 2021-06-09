@@ -25,28 +25,13 @@ variable "availability_zone" {
   type = map(string)
 }
 
-variable "bastion_cidr_block" {
+variable "vpn_cidr_block" {
   description = "The CIDR of the VPC."
-}
-
-variable "bastion_public_cidr" {
-  type = map(string)
-}
-
-variable "bastion_private_cidr" {
-  type = map(string)
-}
-
-variable "bastion_domain_zone" {
-}
-
-variable "bastion_domain_name" {
 }
 
 variable "cloudwatch_log_retention" {
 }
 
-variable "bastion_peering_ids" {
+variable "vpn_peering_ids" {
   type = list(string)
 }
-

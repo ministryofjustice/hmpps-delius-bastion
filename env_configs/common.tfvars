@@ -8,3 +8,5 @@ availability_zone = {
 
   az3 = "eu-west-2c"
 }
+
+lb_account_id = "652711504416"

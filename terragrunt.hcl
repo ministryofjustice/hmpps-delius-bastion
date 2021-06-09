@@ -37,7 +37,7 @@ generate "provider" {
   contents  = <<EOF
 provider "aws" {
   region  = "${get_env("TG_REGION", "AWS-REGION")}"
-  version = "~> 2.65"
+  version = "~> 3.44"
 }
 EOF
 }
