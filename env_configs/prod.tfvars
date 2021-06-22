@@ -34,5 +34,5 @@ bastion_peering_ids = [
   "pcx-074d66c2c52980e1b,10.160.48.0/20,delius-perf",
   "pcx-094457b5beefa8e9e,10.163.32.0/20,cr-jira-prod",
   "pcx-0c3e9233f22ecd688,10.163.64.0/20,cr-jitbit-prod",
-  "pcx-026c23b1b35a09e0910.163.96.0/20,cr-unpaid-work-prod"
+  "pcx-026c23b1b35a09e09,10.163.96.0/20,cr-unpaid-work-prod"
 ]
