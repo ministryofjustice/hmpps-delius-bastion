@@ -50,7 +50,7 @@ bastion_peering_ids = [
 vpn_cidr_block = "10.165.32.0/20"
 
 vpn_peering_ids = [
-  "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev"
+  "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev",
   "pcx-0537c74c3fd2f2e03,10.163.48.0/20,cr-jitbit-dev"
 ]
 
