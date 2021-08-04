@@ -8,6 +8,16 @@
 .idea/
 /hmpps-delius-bastion.iml
 *.plan
+*_ret
 
 **/backend.tf
 **/provider.tf
+
+.env
+Makefile
+Pipfile
+Pipfile.lock
+ansible/
+docker-compose.yml
+docker-run.sh
+utils

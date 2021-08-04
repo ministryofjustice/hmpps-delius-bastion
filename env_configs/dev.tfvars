@@ -1,4 +1,5 @@
 bastion_domain_zone = "bastion-dev.probation.hmpps.dsd.io."
+bastion_domain_name = "bastion-dev.probation.hmpps.dsd.io"
 
 bastion_cidr_block = "10.161.98.0/25"
 
@@ -44,4 +45,54 @@ bastion_peering_ids = [
   "pcx-03cd4edb021407db0,10.163.16.0/20,cr-jira-dev",
   "pcx-0608510cfe71433df,10.163.48.0/20,cr-jitbit-dev",
   "pcx-09d78b17b7f2cf70c,10.163.80.0/20,cr-unpaid-work-dev"
+]
+
+vpn_cidr_block = "10.165.32.0/20"
+
+vpn_peering_ids = [
+  "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev"
+]
+
+# Active Directory Group Sids
+# cr-jira-prod =  S-1-5-21-3344382240-1056723541-2538802388-1146
+# cr-jitbit-dev =  S-1-5-21-3344382240-1056723541-2538802388-1147
+# cr-jitbit-prod =  S-1-5-21-3344382240-1056723541-2538802388-1148 
+# cr-unpaid-work-dev =  S-1-5-21-3344382240-1056723541-2538802388-1149
+# cr-unpaid-work-prod =  S-1-5-21-3344382240-1056723541-2538802388-1150 
+# delius-auto-test =  S-1-5-21-3344382240-1056723541-2538802388-1151 
+# delius-core-dev =  S-1-5-21-3344382240-1056723541-2538802388-1152 
+# delius-core-sandpit =  S-1-5-21-3344382240-1056723541-2538802388-1153
+# delius-mis-dev =  S-1-5-21-3344382240-1056723541-2538802388-1154 
+# delius-mis-test =  S-1-5-21-3344382240-1056723541-2538802388-1155 
+# delius-perf =  S-1-5-21-3344382240-1056723541-2538802388-1156 
+# delius-po-test1 =  S-1-5-21-3344382240-1056723541-2538802388-1157 
+# delius-pre-prod =  S-1-5-21-3344382240-1056723541-2538802388-1158 
+# delius-prod =  S-1-5-21-3344382240-1056723541-2538802388-1159 
+# delius-stage =  S-1-5-21-3344382240-1056723541-2538802388-1160 
+# delius-test =  S-1-5-21-3344382240-1056723541-2538802388-1161 
+# delius-training =  S-1-5-21-3344382240-1056723541-2538802388-1162 
+# delius-training-test =  S-1-5-21-3344382240-1056723541-2538802388-1163 
+
+authorization_rules = [
+  {
+    name                 = "alfresco-dev"
+    authorize_all_groups = true
+    description          = "Alfresco dev"
+    target_network_cidr  = "10.161.80.0/22"
+    access_group_id      = "S-1-5-21-3344382240-1056723541-2538802388-1144"
+  },
+  {
+    name                 = "vpn-dev"
+    authorize_all_groups = true
+    description          = "Bastion dev"
+    target_network_cidr  = "10.165.32.0/20"
+    access_group_id      = "S-1-5-21-3344382240-1056723541-2538802388-1613" #vpn_admins
+  }
+]
+
+additional_routes = [
+  {
+    destination_cidr_block = "10.161.80.0/22"
+    description            = "Alfresco dev"
+  }
 ]

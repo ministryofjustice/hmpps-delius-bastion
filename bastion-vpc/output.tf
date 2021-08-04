@@ -141,3 +141,11 @@ output "kms_arn" {
 #output "ssh_deployer_key" {
 #  value = "${module.ssh_key.deployer_key}"
 #}
+
+output "public_acm_info" {
+  value = {
+    arn         = aws_acm_certificate.public_zone.arn
+    id          = aws_acm_certificate.public_zone.id
+    domain_name = aws_acm_certificate.public_zone.domain_name
+  }
+}
