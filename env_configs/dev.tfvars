@@ -50,7 +50,8 @@ bastion_peering_ids = [
 vpn_cidr_block = "10.165.32.0/20"
 
 vpn_peering_ids = [
-  "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev"
+  "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev",
+  "pcx-0537c74c3fd2f2e03,10.163.48.0/20,cr-jitbit-dev"
 ]
 
 # Active Directory Group Sids
@@ -87,6 +88,13 @@ authorization_rules = [
     description          = "Bastion dev"
     target_network_cidr  = "10.165.32.0/20"
     access_group_id      = "S-1-5-21-3344382240-1056723541-2538802388-1613" #vpn_admins
+  },
+  {
+    name                 = "cr-jitbit-dev"
+    authorize_all_groups = true
+    description          = "CR Jitbit dev"
+    target_network_cidr  = "10.163.48.0/20"
+    access_group_id      = "S-1-5-21-3344382240-1056723541-2538802388-1147"
   }
 ]
 
@@ -94,5 +102,9 @@ additional_routes = [
   {
     destination_cidr_block = "10.161.80.0/22"
     description            = "Alfresco dev"
+  },
+  {
+    destination_cidr_block = "10.163.48.0/20"
+    description            = "CR Jitbit dev"
   }
 ]
