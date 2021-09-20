@@ -44,14 +44,16 @@ bastion_peering_ids = [
   "pcx-07220cdfdd572affd,10.162.128.0/20,delius-auto-test",
   "pcx-03cd4edb021407db0,10.163.16.0/20,cr-jira-dev",
   "pcx-0608510cfe71433df,10.163.48.0/20,cr-jitbit-dev",
-  "pcx-09d78b17b7f2cf70c,10.163.80.0/20,cr-unpaid-work-dev"
+  "pcx-09d78b17b7f2cf70c,10.163.80.0/20,cr-unpaid-work-dev",
+  "pcx-02148189febfa5fd4,10.164.48.0/20,cr-jitbit-preprod"
 ]
 
 vpn_cidr_block = "10.165.32.0/20"
 
 vpn_peering_ids = [
   "pcx-04a11bf40fd7eeb42,10.161.80.0/22,alfresco-dev",
-  "pcx-0537c74c3fd2f2e03,10.163.48.0/20,cr-jitbit-dev"
+  "pcx-017dd12e43992e944,10.163.48.0/20,cr-jitbit-dev",
+  "pcx-07289fb9d244ca04f,10.164.48.0/20,cr-jitbit-preprod"
 ]
 
 # Active Directory Group Sids
