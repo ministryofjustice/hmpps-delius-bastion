@@ -45,7 +45,8 @@ bastion_peering_ids = [
   "pcx-03cd4edb021407db0,10.163.16.0/20,cr-jira-dev",
   "pcx-0608510cfe71433df,10.163.48.0/20,cr-jitbit-dev",
   "pcx-09d78b17b7f2cf70c,10.163.80.0/20,cr-unpaid-work-dev",
-  "pcx-02148189febfa5fd4,10.164.48.0/20,cr-jitbit-preprod"
+  "pcx-02148189febfa5fd4,10.164.48.0/20,cr-jitbit-preprod",
+  "pcx-05838fcaf998f7a50,10.165.48.0/20,cr-jitbit-training"
 ]
 
 vpn_cidr_block = "10.165.32.0/20"
