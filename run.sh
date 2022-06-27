@@ -4,7 +4,7 @@ set -e
 
 #Usage
 # Scripts takes four (4) arguments:
-# 1) environment_name : eg same as the env's config file name delius-core-dev delius-perf alfresco-dev
+# 1) environment_name : eg same as the env's config file name delius-core-dev alfresco-dev
 # 2) action | ACTION_TYPE: task to complete example plan apply test clean
 # 3) component | eg vpc security-groups application (name of subdir where resources are defined in Terraform)
 # 4*) optional AWS_TOKEN: token to use when running locally eg hmpps-token
