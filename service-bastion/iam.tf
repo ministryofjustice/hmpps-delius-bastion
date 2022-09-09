@@ -7,7 +7,7 @@ data "aws_iam_policy_document" "instance_iam_role_assume_permissions" {
   statement {
     effect = "Allow"
     actions = [
-      "sts.AssumeRole"
+      "sts:AssumeRole"
     ]
     principals {
       type        = "Service"
@@ -20,6 +20,7 @@ data "aws_iam_policy_document" "instance_iam_role_assume_permissions" {
 resource "aws_iam_role" "instance_iam_role" {
   name               = local.instance_role_name
   assume_role_policy = data.aws_iam_policy_document.instance_iam_role_assume_permissions.json
+  description        = "Allows EC2 instances to call AWS services on your behalf."
   tags = merge(
     var.tags,
     {
