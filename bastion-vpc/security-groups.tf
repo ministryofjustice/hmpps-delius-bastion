@@ -14,7 +14,10 @@ resource "aws_security_group" "bastion-vpc-sg" {
   )
 }
 
+# Only create this SG rule if not in the eng-dev account
+#   In time, this will be excluded for both eng-dev and eng-prod
 resource "aws_security_group_rule" "ssh_in" {
+  count             = var.environment_name == "bastion-dev" ? 0 : 1
   from_port         = 22
   protocol          = "tcp"
   security_group_id = aws_security_group.bastion-vpc-sg.id
@@ -23,7 +26,10 @@ resource "aws_security_group_rule" "ssh_in" {
   type              = "ingress"
 }
 
+# Only create this SG rule if not in the eng-dev account
+#   In time, this will be excluded for both eng-dev and eng-prod
 resource "aws_security_group_rule" "https_in" {
+  count             = var.environment_name == "bastion-dev" ? 0 : 1
   from_port         = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.bastion-vpc-sg.id
