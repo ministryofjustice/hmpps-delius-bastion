@@ -50,3 +50,6 @@ variable "bastion_peering_ids" {
   type = list(string)
 }
 
+variable "eng_dev_vpc_cidr" {
+  description = "CIDR range of eng_dev VPC hosting jenkins, jira etc. This used to allow jenkins instances to reach dev and prod bastion"
+}
