@@ -14,22 +14,7 @@ resource "aws_security_group" "bastion-vpc-sg" {
   )
 }
 
-# Only create this SG rule if not in the eng-dev account
-#   In time, this will be excluded for both eng-dev and eng-prod
-resource "aws_security_group_rule" "ssh_in" {
-  count             = var.environment_name == "bastion-dev" ? 0 : 1
-  from_port         = 22
-  protocol          = "tcp"
-  security_group_id = aws_security_group.bastion-vpc-sg.id
-  to_port           = 22
-  cidr_blocks       = ["0.0.0.0/0"]
-  type              = "ingress"
-}
-
-# Create this rule in the eng-dev account to allow the jenkins master and agents to connect to dev bastion over tcp 22
-#   Rather than having to go over the internet
 resource "aws_security_group_rule" "ssh_in_from_jenkins" {
-  count                    = var.environment_name == "bastion-dev" ? 1 : 0
   from_port                = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.bastion-vpc-sg.id
@@ -37,18 +22,6 @@ resource "aws_security_group_rule" "ssh_in_from_jenkins" {
   cidr_blocks              = [var.eng_dev_vpc_cidr]
   type                     = "ingress"
   description              = "Allow access from eng-dev vpc to allow Jenkins to connect"
-}
-
-# Only create this SG rule if not in the eng-dev account
-#   In time, this will be excluded for both eng-dev and eng-prod
-resource "aws_security_group_rule" "https_in" {
-  count             = var.environment_name == "bastion-dev" ? 0 : 1
-  from_port         = 443
-  protocol          = "tcp"
-  security_group_id = aws_security_group.bastion-vpc-sg.id
-  to_port           = 443
-  cidr_blocks       = ["0.0.0.0/0"]
-  type              = "ingress"
 }
 
 resource "aws_security_group_rule" "internal_in_ping" {
