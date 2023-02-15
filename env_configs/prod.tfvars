@@ -1,4 +1,5 @@
 bastion_domain_zone = "bastion-prod.probation.hmpps.dsd.io."
+bastion_domain_name = "bastion-prod.probation.hmpps.dsd.io"
 
 bastion_cidr_block = "10.160.98.0/25"
 
