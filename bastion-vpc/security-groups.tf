@@ -14,10 +14,7 @@ resource "aws_security_group" "bastion-vpc-sg" {
   )
 }
 
-# Create this rule in the eng-dev account to allow the jenkins master and agents to connect to dev bastion over tcp 22
-#   Rather than having to go over the internet
 resource "aws_security_group_rule" "ssh_in_from_jenkins" {
-  count                    = var.environment_name == "bastion-dev" ? 1 : 0
   from_port                = 22
   protocol                 = "tcp"
   security_group_id        = aws_security_group.bastion-vpc-sg.id
