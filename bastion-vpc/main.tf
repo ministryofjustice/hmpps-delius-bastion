@@ -197,3 +197,25 @@ module "common-nat-az3" {
   tags   = var.tags
 }
 
+## PTTP TGW attachment and routing
+locals {
+  pttp_tgw_id = "tgw-026162f1ba39ce704"
+}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "pttp" {
+  transit_gateway_id = local.pttp_tgw_id
+  vpc_id             = module.bastion_vpc.vpc_id
+  subnet_ids         = [
+    module.bastion-private-az1.subnetid,
+    module.bastion-private-az2.subnetid,
+    module.bastion-private-az3.subnetid
+  ]
+
+  dns_support  = "enable"
+  ipv6_support = "disable"
+
+  transit_gateway_default_route_table_association = "true"
+  transit_gateway_default_route_table_propagation = "true"
+
+  tags = var.tags
+}
