@@ -200,6 +200,11 @@ module "common-nat-az3" {
 ## PTTP TGW attachment and routing
 locals {
   pttp_tgw_id = "tgw-026162f1ba39ce704"
+
+  corresponding_mp_cidr = {
+    bastion-dev  = "10.26.0.0/16"
+    bastion-prod = "10.27.0.0/16"
+  }
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "pttp" {
@@ -218,4 +223,16 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "pttp" {
   transit_gateway_default_route_table_propagation = "true"
 
   tags = var.tags
+}
+
+resource "aws_route" "mp" {
+  for_each = toset ([
+    module.bastion-private-az1.routetableid,
+    module.bastion-private-az2.routetableid,
+    module.bastion-private-az3.routetableid
+  ])
+
+  route_table_id         = each.key
+  destination_cidr_block = local.corresponding_mp_cidr[var.environment_name]
+  transit_gateway_id     = local.pttp_tgw_id
 }
